@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .home-suggestions {
+    @apply flex justify-between items-center hover:shadow-xl p-4 cursor-pointer rounded-lg text-black bg-white
+    max-w-md mx-auto xl:mx-0 border border-[#E1E1E1];
+  }
+}
+
 html,
 body {
   padding: 0;

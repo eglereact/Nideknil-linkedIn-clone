@@ -1,17 +1,19 @@
 import Image from "next/image";
 import HeaderLink from "../components/HeaderLink";
 import logo from "./../images/logo.png";
+import homeImage from "./../images/home.svg";
 import {
   MdGroup,
   MdOutlineExplore,
   MdOndemandVideo,
   MdBusinessCenter,
 } from "react-icons/md";
+import { BsChevronCompactRight } from "react-icons/bs";
 
 function Home() {
   return (
-    <div>
-      <header className="flex justify-around items-center py-4">
+    <div className="space-y-10 relative">
+      <header className="flex justify-between items-center py-4 max-w-screen-lg mx-auto">
         <div className="relative w-36 h-10">
           <Image src={logo} layout="fill" objectFit="contain" />
         </div>
@@ -32,6 +34,30 @@ function Home() {
           </div>
         </div>
       </header>
+      <main className="flex flex-col xl:flex-row items-center max-w-screen-lg mx-auto">
+        <div className="space-y-6 xl:space-y-10">
+          <h1 className="text-3xl md:text-5xl text-[#976557] max-w-xl !leading-snug pl-4 xl:pl-0 font-thin">
+            Welcome to your professional community
+          </h1>
+          <div className="space-y-4">
+            <div className="home-suggestions">
+              <h2 className="text-xl text-[#925BD2]">Search for a job</h2>
+              <BsChevronCompactRight className="text-gray-700" />
+            </div>
+            <div className="home-suggestions">
+              <h2 className="text-xl">Find a person you know</h2>
+              <BsChevronCompactRight className="text-gray-700" />
+            </div>
+            <div className="home-suggestions">
+              <h2 className="text-xl">Learn a new skill</h2>
+              <BsChevronCompactRight className="text-gray-700" />
+            </div>
+          </div>
+        </div>
+        <div className="relative xl:absolute  w-80 h-80 xl:w-[650px] xl:h-[650px] xl:left-1/2">
+          <Image src={homeImage} layout="fill" priority />
+        </div>
+      </main>
     </div>
   );
 }
