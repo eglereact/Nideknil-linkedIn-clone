@@ -2,6 +2,8 @@ import Image from "next/image";
 import HeaderLink from "../components/HeaderLink";
 import logo from "./../images/logo.png";
 import homeImage from "./../images/home.svg";
+import { getProviders, signIn } from "next-auth/react";
+
 import {
   MdGroup,
   MdOutlineExplore,
@@ -9,10 +11,15 @@ import {
   MdBusinessCenter,
 } from "react-icons/md";
 import { BsChevronCompactRight } from "react-icons/bs";
+import Head from "next/head";
 
-function Home() {
+function Home({ providers }) {
   return (
     <div className="space-y-10 relative">
+      <Head>
+        <title>Nideknil: Login</title>
+        <link rel="icon" href="/icon.png" />
+      </Head>
       <header className="flex justify-between items-center py-4 max-w-screen-lg mx-auto">
         <div className="relative w-36 h-10">
           <Image src={logo} layout="fill" objectFit="contain" />
@@ -24,14 +31,19 @@ function Home() {
             <HeaderLink Icon={MdOndemandVideo} text="Learning" />
             <HeaderLink Icon={MdBusinessCenter} text="Jobs" />
           </div>
-          <div className="pl-4 ">
-            <button
-              className="w-24 text-[#0073B0] font-semibold rounded-full border border-[#0073B0] px-5 py-1.5
-              transition duration-150 ease-in-out hover:bg-[#EAF4FE] hover:border-2"
-            >
-              Sign In
-            </button>
-          </div>
+          {Object.values(providers).map((provider) => (
+            <div key={provider.name}>
+              <div className="pl-4 ">
+                <button
+                  onClick={() => signIn(provider.id, { callbackUrl: "/" })}
+                  className="w-24 text-[#0073B0] font-semibold rounded-full border border-[#0073B0] px-5 py-1.5
+                transition duration-150 ease-in-out hover:bg-[#EAF4FE] hover:border-2"
+                >
+                  Sign In
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </header>
       <main className="flex flex-col xl:flex-row items-center max-w-screen-lg mx-auto">
@@ -54,12 +66,21 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="relative xl:absolute  w-80 h-80 xl:w-[650px] xl:h-[650px] xl:left-1/2">
+        {/* <div className="relative xl:absolute  w-80 h-80 xl:w-[650px] xl:h-[650px] xl:left-1/2">
           <Image src={homeImage} layout="fill" priority />
-        </div>
+        </div> */}
       </main>
     </div>
   );
 }
 
 export default Home;
+
+export async function getServerSideProps(context) {
+  const providers = await getProviders();
+  return {
+    props: {
+      providers,
+    },
+  };
+}
