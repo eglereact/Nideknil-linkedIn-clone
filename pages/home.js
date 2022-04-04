@@ -66,9 +66,9 @@ function Home({ providers }) {
             </div>
           </div>
         </div>
-        {/* <div className="relative xl:absolute  w-80 h-80 xl:w-[650px] xl:h-[650px] xl:left-1/2">
+        <div className="relative xl:absolute -z-10 w-80 h-80 xl:w-[650px] xl:h-[650px] xl:left-1/2">
           <Image src={homeImage} layout="fill" priority />
-        </div> */}
+        </div>
       </main>
     </div>
   );
