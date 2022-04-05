@@ -2,28 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply bg-gray-100;
+  }
+}
+
 @layer components {
   .home-suggestions {
     @apply flex justify-between items-center hover:shadow-xl p-4 cursor-pointer rounded-lg text-black bg-white
     max-w-md mx-auto xl:mx-0 border border-[#E1E1E1];
   }
-}
-
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
 }
