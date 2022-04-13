@@ -16,6 +16,7 @@ import HeaderLink from "./HeaderLink";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
 
 const spring = {
   type: "spring",
@@ -26,6 +27,7 @@ const spring = {
 function Header() {
   const [mounted, setMounted] = useState(false);
   const { setTheme, resolvedTheme } = useTheme();
+  const { data: session } = useSession();
 
   useEffect(() => setMounted(true), []);
 
@@ -60,7 +62,16 @@ function Header() {
         <HeaderLink Icon={MdBusinessCenter} text="Jobs" feed hidden />
         <HeaderLink Icon={MdChat} text="Messaging" feed />
         <HeaderLink Icon={MdNotifications} text="Notifications" feed />
-        <HeaderLink Icon={MdGroup} text="Me" feed avartar hidden />
+        <div
+          className="hidden md:inline-flex flex-col text-black/60 hover:text-black dark:text-white/75
+         dark:hover:text-white lg:-mb-1.5 space-y-1 cursor-pointer"
+        >
+          <img src={session?.user?.image} className="rounded-full w-6 h-6 " />
+          <h4 className="hidden lg:flex justify-center w-full mx-auto text-sm">
+            Me
+          </h4>
+        </div>
+        {/* <HeaderLink Icon={MdGroup} text="Me" feed avartar hidden /> */}
         <HeaderLink Icon={MdOutlineApps} text="Work" feed hidden />
         {/* Dark mode toggle */}
         {mounted && (

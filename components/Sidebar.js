@@ -1,8 +1,10 @@
 import Image from "next/image";
 import gray from "../images/gray.jpg";
 import { BsFillBookmarkFill, BsPlus } from "react-icons/bs";
+import { signOut, useSession } from "next-auth/react";
 
 function Sidebar() {
+  const { data: session } = useSession();
   return (
     <div className="space-y-2 min-w-max max-w-lg">
       <div
@@ -14,16 +16,17 @@ function Sidebar() {
         </div>
 
         <img
-          src="https://styles.redditmedia.com/t5_505g04/styles/profileIcon_snooad6477ea-4207-4b46-a376-476bf6c21d57-headshot.png?width=256&height=256&crop=256:256,smart&s=9306e431eacd8815477d0c8bc12ae3ebc8c451b7"
+          onClick={() => signOut()}
+          src={session?.user?.image}
           alt="Profile Pic"
           className="rounded-full border-2 h-14 w-14 absolute top-4 cursor-pointer"
         />
         <div className="mt-5 py-4 space-x-0.5">
           <h4 className="hover:underline decoration-purple-700 underline-offset-1 cursor-pointer">
-            Somach Phan
+            {session?.user?.name}
           </h4>
           <p className="text-black/60 dark:text-white/75 text-sm">
-            somachphan@gmail.com
+            {session?.user?.email}
           </p>
         </div>
         <div className="hidden md:inline text-left dark:text-white/75 text-sm">
