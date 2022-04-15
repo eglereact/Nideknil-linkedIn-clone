@@ -9,7 +9,6 @@ import {
   MdOutlineApps,
   MdGroup,
   MdBusinessCenter,
-  MdWbSunny,
 } from "react-icons/md";
 import { BsMoonFill } from "react-icons/bs";
 import HeaderLink from "./HeaderLink";
