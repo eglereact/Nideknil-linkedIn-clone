@@ -10,7 +10,6 @@ import {
   MdGroup,
   MdBusinessCenter,
 } from "react-icons/md";
-import { BsMoonFill } from "react-icons/bs";
 import HeaderLink from "./HeaderLink";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
