@@ -1,10 +1,13 @@
 import { MdMoreHoriz, MdClose } from "react-icons/md";
 import { useRecoilState } from "recoil";
-import { modalState } from "../atoms/modalAtom";
+import { modalState, modalTypeState } from "../atoms/modalAtom";
 import { useState } from "react";
+import { getPostState } from "../atoms/postAtom";
 
 function Post({ post, modalPost }) {
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
+  const [postState, setPostState] = useRecoilState(getPostState);
+  const [modalType, setModalType] = useRecoilState(modalTypeState);
   const [showInput, setShowInput] = useState(false);
 
   const truncate = (text, number) =>
@@ -48,7 +51,16 @@ function Post({ post, modalPost }) {
         </div>
       )}
       {post.photoUrl && !modalPost && (
-        <img src={post.photoUrl} alt="" className="w-full cursor-pointer" />
+        <img
+          src={post.photoUrl}
+          alt=""
+          className="w-full cursor-pointer"
+          onClick={() => {
+            setModalOpen(true);
+            setModalType("gifYouUp");
+            setPostState(post);
+          }}
+        />
       )}
     </div>
   );
