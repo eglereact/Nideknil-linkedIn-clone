@@ -14,7 +14,7 @@ import HeaderLink from "./HeaderLink";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 const spring = {
   type: "spring",
@@ -64,7 +64,11 @@ function Header() {
           className="hidden md:inline-flex flex-col text-black/60 hover:text-black dark:text-white/75
          dark:hover:text-white lg:-mb-1.5 space-y-1 cursor-pointer"
         >
-          <img src={session?.user?.image} className="rounded-full w-6 h-6 " />
+          <img
+            src={session?.user?.image}
+            className="rounded-full w-6 h-6 "
+            onClick={() => signOut()}
+          />
           <h4 className="hidden lg:flex justify-center w-full mx-auto text-sm">
             Me
           </h4>

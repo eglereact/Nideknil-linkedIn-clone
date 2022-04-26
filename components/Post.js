@@ -1,17 +1,40 @@
-import { MdMoreHoriz, MdClose } from "react-icons/md";
+import {
+  MdMoreHoriz,
+  MdClose,
+  MdOutlineComment,
+  MdThumbUpOffAlt,
+  MdThumbUp,
+  MdDeleteOutline,
+  MdReply,
+} from "react-icons/md";
 import { useRecoilState } from "recoil";
 import { modalState, modalTypeState } from "../atoms/modalAtom";
 import { useState } from "react";
-import { getPostState } from "../atoms/postAtom";
+import { getPostState, handlePostState } from "../atoms/postAtom";
+import { useSession } from "next-auth/react";
+import TimeAgo from "timeago-react";
 
 function Post({ post, modalPost }) {
+  const { data: session } = useSession();
   const [modalOpen, setModalOpen] = useRecoilState(modalState);
   const [postState, setPostState] = useRecoilState(getPostState);
   const [modalType, setModalType] = useRecoilState(modalTypeState);
   const [showInput, setShowInput] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [handlePost, setHandlePost] = useRecoilState(handlePostState);
 
   const truncate = (text, number) =>
     text?.length > number ? text.substr(0, number - 1) + "... See more" : text;
+
+  const deletePost = async () => {
+    const response = await fetch(`/api/posts/${post._id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    setHandlePost(true);
+    setModalOpen(false);
+  };
+
   return (
     <div
       className={`bg-white dark:bg-[#1d2226] ${
@@ -25,6 +48,10 @@ function Post({ post, modalPost }) {
             {post.username}
           </h6>
           <p className="text-sm dark:text-white/75 opacity-80">{post.email}</p>
+          <TimeAgo
+            datetime={post.createdAt}
+            className="text-sm dark:text-white/75 opacity-80"
+          />
         </div>
         {modalPost ? (
           <button
@@ -62,6 +89,38 @@ function Post({ post, modalPost }) {
           }}
         />
       )}
+
+      <div
+        className="flex justify-evenly items-center dark:border-t border-gray-600/80 mx-2.5
+      pt-2 text-black/60 dark:text-white/75"
+      >
+        {modalPost ? (
+          <button className="postBtn">
+            <MdOutlineComment />
+            <h4>Comment</h4>
+          </button>
+        ) : (
+          <button
+            className={`postBtn ${liked && "text-blue-500"}`}
+            onClick={() => setLiked(!liked)}
+          >
+            {liked ? <MdThumbUp /> : <MdThumbUpOffAlt />}
+
+            <h4>Like</h4>
+          </button>
+        )}
+        {session?.user?.email === post.email ? (
+          <button className="postBtn focus:text-red-400" onClick={deletePost}>
+            <MdDeleteOutline />
+            <h4>Delete Post</h4>
+          </button>
+        ) : (
+          <button className="postBtn">
+            <MdReply className="-scale-x-100" />
+            <h4>Share</h4>
+          </button>
+        )}
+      </div>
     </div>
   );
 }
